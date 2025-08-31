@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { usePathname } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { login, register, clearError } from '../store/slices/authSlice';
 import styles from './AuthForm.module.css';
@@ -13,7 +14,8 @@ interface AuthFormData {
 }
 
 export default function AuthForm() {
-  const [isLogin, setIsLogin] = useState(true);
+  const pathname = usePathname();
+  const [isLogin, setIsLogin] = useState(pathname === '/login');
   const dispatch = useAppDispatch();
   const { isLoading, error } = useAppSelector((state) => state.auth);
   
@@ -23,6 +25,13 @@ export default function AuthForm() {
     formState: { errors },
     reset,
   } = useForm<AuthFormData>();
+
+  // Update mode based on current route
+  useEffect(() => {
+    setIsLogin(pathname === '/login');
+    dispatch(clearError());
+    reset();
+  }, [pathname, dispatch, reset]);
 
   const onSubmit = async (data: AuthFormData) => {
     dispatch(clearError());
@@ -36,12 +45,6 @@ export default function AuthForm() {
         username: data.username || '' 
       }));
     }
-  };
-
-  const toggleMode = () => {
-    setIsLogin(!isLogin);
-    dispatch(clearError());
-    reset();
   };
 
   return (
@@ -153,13 +156,12 @@ export default function AuthForm() {
         <div className={styles.footer}>
           <p className={styles.footerText}>
             {isLogin ? "Don't have an account?" : 'Already have an account?'}
-            <button
-              type="button"
-              onClick={toggleMode}
+            <a
+              href={isLogin ? '/sign-up' : '/login'}
               className={styles.toggleButton}
             >
               {isLogin ? 'Sign up' : 'Sign in'}
-            </button>
+            </a>
           </p>
         </div>
       </div>

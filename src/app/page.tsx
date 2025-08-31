@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { useAppSelector } from '../hooks/redux';
-import AuthForm from '../components/AuthForm';
-import styles from './page.module.css';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import LandingPage from '../components/LandingPage';
 
 export default function Home() {
   const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth);
@@ -18,9 +17,11 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className={styles.loadingContainer}>
-        <div className={styles.loadingSpinner}></div>
-        <p className={styles.loadingText}>Loading...</p>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
       </div>
     );
   }
@@ -29,5 +30,5 @@ export default function Home() {
     return null; // Will redirect to dashboard
   }
 
-  return <AuthForm />;
+  return <LandingPage />;
 }
