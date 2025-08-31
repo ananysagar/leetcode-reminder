@@ -1,0 +1,142 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String   @id @default(cuid())
+  email           String   @unique
+  username        String   @unique
+  password        String
+  leetcodeUsername String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  userProblems    UserProblem[]
+  userSheets      UserSheet[]
+  timerSessions   TimerSession[]
+  streakData      StreakData?
+
+  @@map("users")
+}
+
+model Problem {
+  id          String   @id @default(cuid())
+  leetcodeId  Int      @unique
+  title       String
+  difficulty  String   // EASY, MEDIUM, HARD
+  category    String
+  url         String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  userProblems UserProblem[]
+  problemSheets ProblemSheet[]
+
+  @@map("problems")
+}
+
+model StudySheet {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  userSheets      UserSheet[]
+  problemSheets   ProblemSheet[]
+
+  @@map("study_sheets")
+}
+
+model UserProblem {
+  id        String   @id @default(cuid())
+  userId    String
+  problemId String
+  status    String   // NOT_STARTED, IN_PROGRESS, SOLVED, REVIEW_NEEDED
+  notes     String?
+  solvedAt  DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problem Problem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, problemId])
+  @@map("user_problems")
+}
+
+model UserSheet {
+  id          String @id @default(cuid())
+  userId      String
+  sheetId     String
+  isSelected  Boolean @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sheet StudySheet  @relation(fields: [sheetId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, sheetId])
+  @@map("user_sheets")
+}
+
+model ProblemSheet {
+  id        String @id @default(cuid())
+  problemId String
+  sheetId   String
+  order     Int
+  createdAt DateTime @default(now())
+
+  // Relations
+  problem Problem    @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  sheet   StudySheet @relation(fields: [sheetId], references: [id], onDelete: Cascade)
+
+  @@unique([problemId, sheetId])
+  @@map("problem_sheets")
+}
+
+model TimerSession {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String   // POMODORO, QUICK_SOLVE, MEDIUM_PROBLEM, HARD_PROBLEM, STUDY_SESSION
+  duration  Int      // in minutes
+  startedAt DateTime @default(now())
+  endedAt   DateTime?
+  isCompleted Boolean @default(false)
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("timer_sessions")
+}
+
+model StreakData {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  currentStreak   Int      @default(0)
+  longestStreak   Int      @default(0)
+  lastSolvedDate  DateTime?
+  reminderTime    String   @default("21:00") // HH:MM format
+  isReminderEnabled Boolean @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("streak_data")
+} 

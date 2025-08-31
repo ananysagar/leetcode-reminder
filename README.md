@@ -1,36 +1,154 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LeetCode Email Reminder App
+
+A comprehensive LeetCode practice tracker with email reminders, study sheets, and progress analytics built with Next.js, TypeScript, and Redux.
+
+## Features
+
+### 🔐 Authentication System
+- User registration and login
+- JWT-based authentication
+- Protected routes
+- User profile management
+
+### 📧 Email Reminder System
+- Daily streak tracking
+- Smart notifications at 9 PM local time
+- Customizable reminder settings
+- Streak statistics
+
+### 📚 Study Sheets Management
+- Pre-loaded sheets (NeetCode Blind 75, 150, Love Babbar, Striver)
+- Cross-sheet synchronization
+- Progress tracking
+- Direct links to LeetCode problems
+
+### ⏱️ Timer System
+- Pomodoro timer (25min work / 5min break)
+- Custom timers for different problem types
+- Session history tracking
+- Sound notifications
+
+### 📊 Analytics & Insights
+- Daily activity charts
+- Problem type analysis
+- Difficulty distribution
+- Weekly/monthly reports
+
+### 🎨 Modern UI/UX
+- Responsive design
+- Dark/light theme support
+- CSS Modules for styling
+- Smooth animations
+
+## Tech Stack
+
+- **Frontend**: Next.js 14, TypeScript, Redux Toolkit
+- **Styling**: CSS Modules, Tailwind CSS
+- **Database**: Prisma, SQLite
+- **Authentication**: JWT, bcryptjs
+- **Email**: Resend.com
+- **Charts**: Chart.js, React Chart.js 2
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ 
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd leetcode-reminder
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up environment variables:
+```bash
+cp env.example .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Edit `.env.local` and add your configuration:
+```env
+DATABASE_URL="file:./dev.db"
+JWT_SECRET="your-super-secret-jwt-key-change-this-in-production"
+RESEND_API_KEY="your-resend-api-key"
+```
 
-## Learn More
+4. Set up the database:
+```bash
+npx prisma generate
+npx prisma db push
+```
 
-To learn more about Next.js, take a look at the following resources:
+5. Run the development server:
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+```
+src/
+├── app/                    # Next.js App Router
+│   ├── api/               # API routes
+│   ├── dashboard/         # Dashboard page
+│   ├── sheets/           # Study sheets page
+│   ├── timer/            # Timer page
+│   ├── analytics/        # Analytics page
+│   └── settings/         # Settings page
+├── components/           # Reusable components
+├── store/               # Redux store and slices
+├── lib/                 # Utilities and configurations
+├── types/               # TypeScript type definitions
+└── hooks/               # Custom React hooks
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Database Schema
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The app uses Prisma with SQLite and includes the following models:
+
+- **User**: User accounts and profiles
+- **Problem**: LeetCode problem metadata
+- **StudySheet**: Study sheet definitions
+- **UserProblem**: User progress on problems
+- **UserSheet**: User's sheet preferences
+- **TimerSession**: Timer session history
+- **StreakData**: Streak tracking data
+
+## API Routes
+
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `GET /api/auth/me` - Get current user
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
+
+## Roadmap
+
+- [ ] LeetCode API integration
+- [ ] Email reminder system
+- [ ] Study sheets with problem data
+- [ ] Timer functionality
+- [ ] Analytics dashboard
+- [ ] Mobile app
+- [ ] Study groups feature
+- [ ] Problem recommendations
