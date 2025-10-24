@@ -1,5 +1,10 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { AuthState, LoginCredentials, RegisterCredentials, User } from '../../types/auth';
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import {
+  AuthState,
+  LoginCredentials,
+  RegisterCredentials,
+  User,
+} from "../../types/auth";
 
 const initialState: AuthState = {
   user: null,
@@ -10,81 +15,75 @@ const initialState: AuthState = {
 
 // Async thunks
 export const login = createAsyncThunk(
-  'auth/login',
+  "auth/login",
   async (credentials: LoginCredentials) => {
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(credentials),
     });
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.message || 'Login failed');
+      throw new Error(error.message || "Login failed");
     }
 
     const data = await response.json();
-    localStorage.setItem('token', data.token);
+    localStorage.setItem("token", data.token);
     return data;
-  }
+  },
 );
 
 export const register = createAsyncThunk(
-  'auth/register',
+  "auth/register",
   async (credentials: RegisterCredentials) => {
-    const response = await fetch('/api/auth/register', {
-      method: 'POST',
+    const response = await fetch("/api/auth/register", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(credentials),
     });
 
     if (!response.ok) {
       const error = await response.json();
-      throw new Error(error.message || 'Registration failed');
+      throw new Error(error.message || "Registration failed");
     }
 
     const data = await response.json();
-    localStorage.setItem('token', data.token);
+    localStorage.setItem("token", data.token);
     return data;
-  }
+  },
 );
 
-export const logout = createAsyncThunk(
-  'auth/logout',
-  async () => {
-    localStorage.removeItem('token');
-    return null;
+export const logout = createAsyncThunk("auth/logout", async () => {
+  localStorage.removeItem("token");
+  return null;
+});
+
+export const checkAuth = createAsyncThunk("auth/checkAuth", async () => {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    throw new Error("No token found");
   }
-);
 
-export const checkAuth = createAsyncThunk(
-  'auth/checkAuth',
-  async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      throw new Error('No token found');
-    }
+  const response = await fetch("/api/auth/me", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-    const response = await fetch('/api/auth/me', {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error('Authentication failed');
-    }
-
-    return await response.json();
+  if (!response.ok) {
+    throw new Error("Authentication failed");
   }
-);
+
+  return await response.json();
+});
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     clearError: (state) => {
@@ -111,7 +110,7 @@ const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message || 'Login failed';
+        state.error = action.error.message || "Login failed";
       })
       // Register
       .addCase(register.pending, (state) => {
@@ -126,7 +125,7 @@ const authSlice = createSlice({
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message || 'Registration failed';
+        state.error = action.error.message || "Registration failed";
       })
       // Logout
       .addCase(logout.fulfilled, (state) => {
@@ -152,4 +151,4 @@ const authSlice = createSlice({
 });
 
 export const { clearError, updateLeetcodeUsername } = authSlice.actions;
-export default authSlice.reducer; 
+export default authSlice.reducer;

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import Navbar from './Navbar';
-import styles from './LandingPage.module.css';
+import Link from "next/link";
+import Navbar from "./Navbar";
+import styles from "./LandingPage.module.css";
 
 export default function LandingPage() {
   return (
@@ -18,9 +18,9 @@ export default function LandingPage() {
             <span className={styles.gradientText}> Smart Reminders</span>
           </h1>
           <p className={styles.heroSubtitle}>
-            Never break your coding streak again. Get personalized email reminders, 
-            track your progress across study sheets, and stay motivated with our 
-            comprehensive LeetCode practice tracker.
+            Never break your coding streak again. Get personalized email
+            reminders, track your progress across study sheets, and stay
+            motivated with our comprehensive LeetCode practice tracker.
           </p>
           <div className={styles.heroButtons}>
             <Link href="/sign-up" className={styles.primaryButton}>
@@ -43,7 +43,7 @@ export default function LandingPage() {
             </div>
             <div className={styles.codeContent}>
               <pre>
-{`class LeetCodeTracker:
+                {`class LeetCodeTracker:
     def __init__(self):
         self.streak = 0
         self.problems_solved = []
@@ -61,37 +61,57 @@ export default function LandingPage() {
       {/* Features Section */}
       <section className={styles.features}>
         <div className={styles.featuresContainer}>
-          <h2 className={styles.featuresTitle}>Why Choose LeetCode Reminder?</h2>
+          <h2 className={styles.featuresTitle}>
+            Why Choose LeetCode Reminder?
+          </h2>
           <div className={styles.featuresGrid}>
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>📧</div>
               <h3>Smart Email Reminders</h3>
-              <p>Get personalized reminders at 9 PM if you haven't solved a problem today. Never break your streak again!</p>
+              <p>
+                Get personalized reminders at 9 PM if you haven't solved a
+                problem today. Never break your streak again!
+              </p>
             </div>
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>📚</div>
               <h3>Study Sheets Management</h3>
-              <p>Track progress across NeetCode 150, Blind 75, Love Babbar, and more. Cross-sheet synchronization included.</p>
+              <p>
+                Track progress across NeetCode 150, Blind 75, Love Babbar, and
+                more. Cross-sheet synchronization included.
+              </p>
             </div>
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>⏱️</div>
               <h3>Pomodoro Timer</h3>
-              <p>Stay focused with customizable timers for different problem types. Track your study sessions.</p>
+              <p>
+                Stay focused with customizable timers for different problem
+                types. Track your study sessions.
+              </p>
             </div>
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>📊</div>
               <h3>Progress Analytics</h3>
-              <p>Visualize your progress with detailed charts and insights. Track your improvement over time.</p>
+              <p>
+                Visualize your progress with detailed charts and insights. Track
+                your improvement over time.
+              </p>
             </div>
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>🔗</div>
               <h3>Direct LeetCode Integration</h3>
-              <p>Connect your LeetCode account and automatically sync your submissions and progress.</p>
+              <p>
+                Connect your LeetCode account and automatically sync your
+                submissions and progress.
+              </p>
             </div>
             <div className={styles.featureCard}>
               <div className={styles.featureIcon}>🎯</div>
               <h3>Goal Setting</h3>
-              <p>Set daily and weekly goals. Get motivated with achievement tracking and milestones.</p>
+              <p>
+                Set daily and weekly goals. Get motivated with achievement
+                tracking and milestones.
+              </p>
             </div>
           </div>
         </div>
@@ -101,7 +121,10 @@ export default function LandingPage() {
       <section className={styles.cta}>
         <div className={styles.ctaContainer}>
           <h2>Ready to Transform Your LeetCode Journey?</h2>
-          <p>Join thousands of developers who are already improving their coding skills with our platform.</p>
+          <p>
+            Join thousands of developers who are already improving their coding
+            skills with our platform.
+          </p>
           <Link href="/sign-up" className={styles.ctaButton}>
             Start Your Free Journey
           </Link>
@@ -116,4 +139,4 @@ export default function LandingPage() {
       </footer>
     </div>
   );
-} 
+}

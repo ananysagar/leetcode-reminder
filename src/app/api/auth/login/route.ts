@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '../../../../lib/prisma';
-import { verifyPassword, generateToken } from '../../../../lib/auth';
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "../../../../lib/prisma";
+import { verifyPassword, generateToken } from "../../../../lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,8 +9,8 @@ export async function POST(request: NextRequest) {
     // Validation
     if (!email || !password) {
       return NextResponse.json(
-        { message: 'Email and password are required' },
-        { status: 400 }
+        { message: "Email and password are required" },
+        { status: 400 },
       );
     }
 
@@ -21,8 +21,8 @@ export async function POST(request: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { message: 'Invalid email or password' },
-        { status: 401 }
+        { message: "Invalid email or password" },
+        { status: 401 },
       );
     }
 
@@ -31,8 +31,8 @@ export async function POST(request: NextRequest) {
 
     if (!isValidPassword) {
       return NextResponse.json(
-        { message: 'Invalid email or password' },
-        { status: 401 }
+        { message: "Invalid email or password" },
+        { status: 401 },
       );
     }
 
@@ -54,10 +54,10 @@ export async function POST(request: NextRequest) {
       token,
     });
   } catch (error) {
-    console.error('Login error:', error);
+    console.error("Login error:", error);
     return NextResponse.json(
-      { message: 'Internal server error' },
-      { status: 500 }
+      { message: "Internal server error" },
+      { status: 500 },
     );
   }
-} 
+}

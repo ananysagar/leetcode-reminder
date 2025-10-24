@@ -58,26 +58,26 @@
     border-right: none;
     border-bottom: 1px solid #e5e7eb;
   }
-  
+
   .nav {
     padding: 0.5rem 0;
   }
-  
+
   .navList {
     display: flex;
     overflow-x: auto;
     padding: 0 1rem;
   }
-  
+
   .navLink {
     padding: 0.5rem 1rem;
     white-space: nowrap;
     border-right: none;
     border-bottom: 3px solid transparent;
   }
-  
+
   .navLink.active {
     border-right-color: transparent;
     border-bottom-color: #3b82f6;
   }
-} 
+}

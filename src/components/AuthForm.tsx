@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { usePathname } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { login, register, clearError } from '../store/slices/authSlice';
-import styles from './AuthForm.module.css';
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { usePathname } from "next/navigation";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { login, register, clearError } from "../store/slices/authSlice";
+import styles from "./AuthForm.module.css";
 
 interface AuthFormData {
   email: string;
@@ -15,10 +15,10 @@ interface AuthFormData {
 
 export default function AuthForm() {
   const pathname = usePathname();
-  const [isLogin, setIsLogin] = useState(pathname === '/login');
+  const [isLogin, setIsLogin] = useState(pathname === "/login");
   const dispatch = useAppDispatch();
   const { isLoading, error } = useAppSelector((state) => state.auth);
-  
+
   const {
     register: registerField,
     handleSubmit,
@@ -28,22 +28,24 @@ export default function AuthForm() {
 
   // Update mode based on current route
   useEffect(() => {
-    setIsLogin(pathname === '/login');
+    setIsLogin(pathname === "/login");
     dispatch(clearError());
     reset();
   }, [pathname, dispatch, reset]);
 
   const onSubmit = async (data: AuthFormData) => {
     dispatch(clearError());
-    
+
     if (isLogin) {
       await dispatch(login({ email: data.email, password: data.password }));
     } else {
-      await dispatch(register({ 
-        email: data.email, 
-        password: data.password, 
-        username: data.username || '' 
-      }));
+      await dispatch(
+        register({
+          email: data.email,
+          password: data.password,
+          username: data.username || "",
+        }),
+      );
     }
   };
 
@@ -52,13 +54,12 @@ export default function AuthForm() {
       <div className={styles.formWrapper}>
         <div className={styles.header}>
           <h1 className={styles.title}>
-            {isLogin ? 'Welcome Back' : 'Create Account'}
+            {isLogin ? "Welcome Back" : "Create Account"}
           </h1>
           <p className={styles.subtitle}>
-            {isLogin 
-              ? 'Sign in to continue your LeetCode journey' 
-              : 'Start tracking your LeetCode progress'
-            }
+            {isLogin
+              ? "Sign in to continue your LeetCode journey"
+              : "Start tracking your LeetCode progress"}
           </p>
         </div>
 
@@ -71,11 +72,11 @@ export default function AuthForm() {
               <input
                 id="username"
                 type="text"
-                {...registerField('username', {
-                  required: !isLogin && 'Username is required',
+                {...registerField("username", {
+                  required: !isLogin && "Username is required",
                   minLength: {
                     value: 3,
-                    message: 'Username must be at least 3 characters',
+                    message: "Username must be at least 3 characters",
                   },
                 })}
                 className={styles.input}
@@ -94,11 +95,11 @@ export default function AuthForm() {
             <input
               id="email"
               type="email"
-              {...registerField('email', {
-                required: 'Email is required',
+              {...registerField("email", {
+                required: "Email is required",
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: 'Invalid email address',
+                  message: "Invalid email address",
                 },
               })}
               className={styles.input}
@@ -116,11 +117,11 @@ export default function AuthForm() {
             <input
               id="password"
               type="password"
-              {...registerField('password', {
-                required: 'Password is required',
+              {...registerField("password", {
+                required: "Password is required",
                 minLength: {
                   value: 6,
-                  message: 'Password must be at least 6 characters',
+                  message: "Password must be at least 6 characters",
                 },
               })}
               className={styles.input}
@@ -131,11 +132,7 @@ export default function AuthForm() {
             )}
           </div>
 
-          {error && (
-            <div className={styles.errorMessage}>
-              {error}
-            </div>
-          )}
+          {error && <div className={styles.errorMessage}>{error}</div>}
 
           <button
             type="submit"
@@ -145,26 +142,28 @@ export default function AuthForm() {
             {isLoading ? (
               <div className={styles.loading}>
                 <div className={styles.spinner}></div>
-                {isLogin ? 'Signing in...' : 'Creating account...'}
+                {isLogin ? "Signing in..." : "Creating account..."}
               </div>
+            ) : isLogin ? (
+              "Sign In"
             ) : (
-              isLogin ? 'Sign In' : 'Create Account'
+              "Create Account"
             )}
           </button>
         </form>
 
         <div className={styles.footer}>
           <p className={styles.footerText}>
-            {isLogin ? "Don't have an account?" : 'Already have an account?'}
+            {isLogin ? "Don't have an account?" : "Already have an account?"}
             <a
-              href={isLogin ? '/sign-up' : '/login'}
+              href={isLogin ? "/sign-up" : "/login"}
               className={styles.toggleButton}
             >
-              {isLogin ? 'Sign up' : 'Sign in'}
+              {isLogin ? "Sign up" : "Sign in"}
             </a>
           </p>
         </div>
       </div>
     </div>
   );
-} 
+}

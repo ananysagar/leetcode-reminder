@@ -7,7 +7,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "LeetCode Reminder - Track Your Progress",
-  description: "A comprehensive LeetCode practice tracker with email reminders, study sheets, and progress analytics",
+  description:
+    "A comprehensive LeetCode practice tracker with email reminders, study sheets, and progress analytics",
 };
 
 export default function RootLayout({
@@ -18,9 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

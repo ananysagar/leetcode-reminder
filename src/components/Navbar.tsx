@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useAppSelector, useAppDispatch } from '../hooks/redux';
-import { logout } from '../store/slices/authSlice';
-import styles from './Navbar.module.css';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useAppSelector, useAppDispatch } from "../hooks/redux";
+import { logout } from "../store/slices/authSlice";
+import styles from "./Navbar.module.css";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -16,7 +16,7 @@ export default function Navbar() {
   };
 
   // Don't show navbar on dashboard (it has its own header)
-  if (pathname.startsWith('/dashboard')) {
+  if (pathname.startsWith("/dashboard")) {
     return null;
   }
 
@@ -32,7 +32,7 @@ export default function Navbar() {
           {isAuthenticated ? (
             <>
               <span className={styles.userInfo}>
-                Welcome, {user?.username || 'User'}!
+                Welcome, {user?.username || "User"}!
               </span>
               <Link href="/dashboard" className={styles.dashboardButton}>
                 Dashboard
@@ -55,4 +55,4 @@ export default function Navbar() {
       </div>
     </nav>
   );
-} 
+}

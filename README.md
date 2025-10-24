@@ -5,36 +5,42 @@ A comprehensive LeetCode practice tracker with email reminders, study sheets, an
 ## Features
 
 ### 🔐 Authentication System
+
 - User registration and login
 - JWT-based authentication
 - Protected routes
 - User profile management
 
 ### 📧 Email Reminder System
+
 - Daily streak tracking
 - Smart notifications at 9 PM local time
 - Customizable reminder settings
 - Streak statistics
 
 ### 📚 Study Sheets Management
+
 - Pre-loaded sheets (NeetCode Blind 75, 150, Love Babbar, Striver)
 - Cross-sheet synchronization
 - Progress tracking
 - Direct links to LeetCode problems
 
 ### ⏱️ Timer System
+
 - Pomodoro timer (25min work / 5min break)
 - Custom timers for different problem types
 - Session history tracking
 - Sound notifications
 
 ### 📊 Analytics & Insights
+
 - Daily activity charts
 - Problem type analysis
 - Difficulty distribution
 - Weekly/monthly reports
 
 ### 🎨 Modern UI/UX
+
 - Responsive design
 - Dark/light theme support
 - CSS Modules for styling
@@ -53,28 +59,32 @@ A comprehensive LeetCode practice tracker with email reminders, study sheets, an
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - npm or yarn
 
 ### Installation
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd leetcode-reminder
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Set up environment variables:
+
 ```bash
 cp env.example .env.local
 ```
 
 Edit `.env.local` and add your configuration:
+
 ```env
 DATABASE_URL="file:./dev.db"
 JWT_SECRET="your-super-secret-jwt-key-change-this-in-production"
@@ -82,12 +92,14 @@ RESEND_API_KEY="your-resend-api-key"
 ```
 
 4. Set up the database:
+
 ```bash
 npx prisma generate
 npx prisma db push
 ```
 
 5. Run the development server:
+
 ```bash
 npm run dev
 ```

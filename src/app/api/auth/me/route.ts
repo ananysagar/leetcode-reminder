@@ -1,14 +1,14 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getUserFromToken } from '../../../../lib/auth';
+import { NextRequest, NextResponse } from "next/server";
+import { getUserFromToken } from "../../../../lib/auth";
 
 export async function GET(request: NextRequest) {
   try {
-    const authHeader = request.headers.get('authorization');
-    
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    const authHeader = request.headers.get("authorization");
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return NextResponse.json(
-        { message: 'No token provided' },
-        { status: 401 }
+        { message: "No token provided" },
+        { status: 401 },
       );
     }
 
@@ -16,18 +16,15 @@ export async function GET(request: NextRequest) {
     const user = await getUserFromToken(token);
 
     if (!user) {
-      return NextResponse.json(
-        { message: 'Invalid token' },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: "Invalid token" }, { status: 401 });
     }
 
     return NextResponse.json({ user });
   } catch (error) {
-    console.error('Auth check error:', error);
+    console.error("Auth check error:", error);
     return NextResponse.json(
-      { message: 'Internal server error' },
-      { status: 500 }
+      { message: "Internal server error" },
+      { status: 500 },
     );
   }
-} 
+}

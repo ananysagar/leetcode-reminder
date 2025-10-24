@@ -129,7 +129,7 @@
 .codeTitle {
   color: #d4d4d4;
   font-size: 0.875rem;
-  font-family: 'Monaco', 'Menlo', monospace;
+  font-family: "Monaco", "Menlo", monospace;
 }
 
 .codeContent {
@@ -139,7 +139,7 @@
 
 .codeContent pre {
   color: #d4d4d4;
-  font-family: 'Monaco', 'Menlo', monospace;
+  font-family: "Monaco", "Menlo", monospace;
   font-size: 0.875rem;
   line-height: 1.5;
   margin: 0;
@@ -273,21 +273,21 @@
     text-align: center;
     padding: 6rem 1rem 2rem;
   }
-  
+
   .heroTitle {
     font-size: 2.5rem;
   }
-  
+
   .heroButtons {
     justify-content: center;
   }
-  
+
   .featuresGrid {
     grid-template-columns: 1fr;
   }
-  
+
   .featuresTitle,
   .ctaContainer h2 {
     font-size: 2rem;
   }
-} 
+}

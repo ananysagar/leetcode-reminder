@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { logout } from '../store/slices/authSlice';
-import styles from './Header.module.css';
+import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { logout } from "../store/slices/authSlice";
+import styles from "./Header.module.css";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -31,7 +31,7 @@ export default function Header() {
             </div>
             <span className={styles.userName}>{user?.username}</span>
             <svg
-              className={`${styles.chevron} ${isMenuOpen ? styles.rotated : ''}`}
+              className={`${styles.chevron} ${isMenuOpen ? styles.rotated : ""}`}
               width="16"
               height="16"
               viewBox="0 0 16 16"
@@ -59,10 +59,7 @@ export default function Header() {
                 </div>
               )}
               <div className={styles.divider}></div>
-              <button
-                className={styles.dropdownButton}
-                onClick={handleLogout}
-              >
+              <button className={styles.dropdownButton} onClick={handleLogout}>
                 Sign Out
               </button>
             </div>
@@ -71,4 +68,4 @@ export default function Header() {
       </div>
     </header>
   );
-} 
+}

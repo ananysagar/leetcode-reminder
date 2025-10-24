@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAppSelector } from '../../hooks/redux';
-import AuthForm from '../../components/AuthForm';
-import Navbar from '../../components/Navbar';
-import styles from './page.module.css';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAppSelector } from "../../hooks/redux";
+import AuthForm from "../../components/AuthForm";
+import Navbar from "../../components/Navbar";
+import styles from "./page.module.css";
 
 export default function LoginPage() {
   const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth);
@@ -13,7 +13,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (isAuthenticated && !isLoading) {
-      router.push('/dashboard');
+      router.push("/dashboard");
     }
   }, [isAuthenticated, isLoading, router]);
 
@@ -37,4 +37,4 @@ export default function LoginPage() {
       <AuthForm />
     </div>
   );
-} 
+}

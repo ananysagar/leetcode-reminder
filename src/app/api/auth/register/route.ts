@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '../../../../lib/prisma';
-import { hashPassword, generateToken } from '../../../../lib/auth';
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "../../../../lib/prisma";
+import { hashPassword, generateToken } from "../../../../lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,32 +9,29 @@ export async function POST(request: NextRequest) {
     // Validation
     if (!email || !password || !username) {
       return NextResponse.json(
-        { message: 'Email, password, and username are required' },
-        { status: 400 }
+        { message: "Email, password, and username are required" },
+        { status: 400 },
       );
     }
 
     if (password.length < 6) {
       return NextResponse.json(
-        { message: 'Password must be at least 6 characters long' },
-        { status: 400 }
+        { message: "Password must be at least 6 characters long" },
+        { status: 400 },
       );
     }
 
     // Check if user already exists
     const existingUser = await prisma.user.findFirst({
       where: {
-        OR: [
-          { email },
-          { username },
-        ],
+        OR: [{ email }, { username }],
       },
     });
 
     if (existingUser) {
       return NextResponse.json(
-        { message: 'User with this email or username already exists' },
-        { status: 400 }
+        { message: "User with this email or username already exists" },
+        { status: 400 },
       );
     }
 
@@ -73,10 +70,10 @@ export async function POST(request: NextRequest) {
       token,
     });
   } catch (error) {
-    console.error('Registration error:', error);
+    console.error("Registration error:", error);
     return NextResponse.json(
-      { message: 'Internal server error' },
-      { status: 500 }
+      { message: "Internal server error" },
+      { status: 500 },
     );
   }
-} 
+}

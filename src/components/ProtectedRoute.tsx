@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAppSelector, useAppDispatch } from '../hooks/redux';
-import { checkAuth } from '../store/slices/authSlice';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAppSelector, useAppDispatch } from "../hooks/redux";
+import { checkAuth } from "../store/slices/authSlice";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -20,7 +20,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.push('/');
+      router.push("/");
     }
   }, [isAuthenticated, isLoading, router]);
 
@@ -40,4 +40,4 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   }
 
   return <>{children}</>;
-} 
+}

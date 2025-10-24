@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import ProtectedRoute from '../../components/ProtectedRoute';
-import styles from './page.module.css';
+import ProtectedRoute from "../../components/ProtectedRoute";
+import styles from "./page.module.css";
 
 export default function AnalyticsPage() {
   return (
@@ -12,4 +12,4 @@ export default function AnalyticsPage() {
       </div>
     </ProtectedRoute>
   );
-} 
+}

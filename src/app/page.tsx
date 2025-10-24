@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useAppSelector } from '../hooks/redux';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import LandingPage from '../components/LandingPage';
+import { useAppSelector } from "../hooks/redux";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+import LandingPage from "../components/LandingPage";
 
 export default function Home() {
   const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth);
@@ -11,7 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     if (isAuthenticated && !isLoading) {
-      router.push('/dashboard');
+      router.push("/dashboard");
     }
   }, [isAuthenticated, isLoading, router]);
 

@@ -1,34 +1,34 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import styles from './Sidebar.module.css';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import styles from "./Sidebar.module.css";
 
 const navigationItems = [
   {
-    name: 'Dashboard',
-    href: '/dashboard',
-    icon: '🏠',
+    name: "Dashboard",
+    href: "/dashboard",
+    icon: "🏠",
   },
   {
-    name: 'Study Sheets',
-    href: '/sheets',
-    icon: '📚',
+    name: "Study Sheets",
+    href: "/sheets",
+    icon: "📚",
   },
   {
-    name: 'Timer',
-    href: '/timer',
-    icon: '⏱️',
+    name: "Timer",
+    href: "/timer",
+    icon: "⏱️",
   },
   {
-    name: 'Analytics',
-    href: '/analytics',
-    icon: '📊',
+    name: "Analytics",
+    href: "/analytics",
+    icon: "📊",
   },
   {
-    name: 'Settings',
-    href: '/settings',
-    icon: '⚙️',
+    name: "Settings",
+    href: "/settings",
+    icon: "⚙️",
   },
 ];
 
@@ -45,7 +45,7 @@ export default function Sidebar() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`${styles.navLink} ${isActive ? styles.active : ''}`}
+                  className={`${styles.navLink} ${isActive ? styles.active : ""}`}
                 >
                   <span className={styles.icon}>{item.icon}</span>
                   <span className={styles.label}>{item.name}</span>
@@ -57,4 +57,4 @@ export default function Sidebar() {
       </nav>
     </aside>
   );
-} 
+}

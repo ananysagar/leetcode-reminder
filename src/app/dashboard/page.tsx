@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import ProtectedRoute from '../../components/ProtectedRoute';
-import Dashboard from '../../components/Dashboard';
+import ProtectedRoute from "../../components/ProtectedRoute";
+import Dashboard from "../../components/Dashboard";
 
 export default function DashboardPage() {
   return (
@@ -9,4 +9,4 @@ export default function DashboardPage() {
       <Dashboard />
     </ProtectedRoute>
   );
-} 
+}

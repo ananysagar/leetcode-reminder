@@ -112,15 +112,15 @@
   .navContainer {
     padding: 0 1rem;
   }
-  
+
   .navButtons {
     gap: 0.5rem;
   }
-  
+
   .userInfo {
     display: none;
   }
-  
+
   .loginButton,
   .signupButton,
   .dashboardButton,
@@ -128,4 +128,4 @@
     padding: 0.5rem 1rem;
     font-size: 0.875rem;
   }
-} 
+}
