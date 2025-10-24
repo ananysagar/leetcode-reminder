@@ -1,9 +1,11 @@
-'use client';
+"use client";
 
-import { useAppSelector } from '../hooks/redux';
-import Header from './Header';
-import Sidebar from './Sidebar';
-import styles from './Dashboard.module.css';
+import Link from "next/link";
+import { useAppSelector } from "../hooks/redux";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
+import LeetCodeDashboard from "./LeetCodeDashboard";
+import styles from "./Dashboard.module.css";
 
 export default function Dashboard() {
   const { user } = useAppSelector((state) => state.auth);
@@ -20,7 +22,7 @@ export default function Dashboard() {
               Ready to continue your LeetCode journey?
             </p>
           </div>
-          
+
           <div className={styles.stats}>
             <div className={styles.statCard}>
               <h3>Current Streak</h3>
@@ -36,29 +38,31 @@ export default function Dashboard() {
             </div>
           </div>
 
+          <LeetCodeDashboard />
+
           <div className={styles.quickActions}>
             <h2>Quick Actions</h2>
             <div className={styles.actionGrid}>
-              <button className={styles.actionButton}>
+              <Link href="/timer" className={styles.actionButton}>
                 <span>🎯</span>
                 <span>Start Timer</span>
-              </button>
-              <button className={styles.actionButton}>
+              </Link>
+              <Link href="/sheets" className={styles.actionButton}>
                 <span>📚</span>
                 <span>View Sheets</span>
-              </button>
-              <button className={styles.actionButton}>
+              </Link>
+              <Link href="/analytics" className={styles.actionButton}>
                 <span>📊</span>
                 <span>Analytics</span>
-              </button>
-              <button className={styles.actionButton}>
+              </Link>
+              <Link href="/settings" className={styles.actionButton}>
                 <span>⚙️</span>
                 <span>Settings</span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
       </div>
     </div>
   );
-} 
+}
