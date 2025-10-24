@@ -24,6 +24,8 @@ model User {
   userSheets      UserSheet[]
   timerSessions   TimerSession[]
   streakData      StreakData?
+  emailReminders  EmailReminder[]
+  leetcodeSubmissions LeetCodeSubmission[]
 
   @@map("users")
 }
@@ -130,13 +132,49 @@ model StreakData {
   currentStreak   Int      @default(0)
   longestStreak   Int      @default(0)
   lastSolvedDate  DateTime?
-  reminderTime    String   @default("21:00") // HH:MM format
   isReminderEnabled Boolean @default(true)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 
   // Relations
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emailReminders EmailReminder[]
 
   @@map("streak_data")
+}
+
+model LeetCodeSubmission {
+  id          String   @id @default(cuid())
+  userId      String
+  problemId   String
+  title       String
+  titleSlug   String
+  difficulty  String
+  status      String   // Accepted, Wrong Answer, etc.
+  language    String
+  submittedAt DateTime
+  createdAt   DateTime @default(now())
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, problemId, submittedAt])
+  @@map("leetcode_submissions")
 } 
+
+model EmailReminder {
+  id        String   @id @default(cuid())
+  userId    String
+  time      String   // HH:MM format
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  streakData StreakData @relation(fields: [userId], references: [userId])
+
+  @@unique([userId, time])
+  @@map("email_reminders")
+}
+
