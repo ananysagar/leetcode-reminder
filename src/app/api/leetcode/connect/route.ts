@@ -58,6 +58,16 @@ export async function POST(request: NextRequest) {
     // Profile data will be fetched when the user visits the dashboard
     let profile = null;
 
+    // Send welcome email (async, don't wait for it)
+    try {
+      const { DailyEmailChecker } = await import('../../../../lib/dailyEmailChecker');
+      DailyEmailChecker.sendWelcomeEmail(user.id).catch(error => {
+        console.warn('Failed to send welcome email:', error);
+      });
+    } catch (error) {
+      console.warn('Failed to import email service:', error);
+    }
+
     return NextResponse.json({
       message: "LeetCode account connected successfully",
       user: updatedUser,
