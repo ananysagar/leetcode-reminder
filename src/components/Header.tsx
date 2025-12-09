@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { logout } from "../store/slices/authSlice";
 import styles from "./Header.module.css";
@@ -9,10 +9,28 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+  const menuRef = useRef<HTMLDivElement>(null);
 
   const handleLogout = () => {
     dispatch(logout());
+    setIsMenuOpen(false);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   return (
     <header className={styles.header}>
@@ -21,7 +39,7 @@ export default function Header() {
           <h1 className={styles.logoText}>LeetCode Reminder</h1>
         </div>
 
-        <div className={styles.userMenu}>
+        <div className={styles.userMenu} ref={menuRef}>
           <button
             className={styles.userButton}
             onClick={() => setIsMenuOpen(!isMenuOpen)}

@@ -1,7 +1,17 @@
 .container {
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+.main {
+  display: flex;
+  min-height: calc(100vh - 64px);
+}
+
+.content {
+  flex: 1;
   padding: 2rem;
-  max-width: 800px;
-  margin: 0 auto;
+  overflow-y: auto;
 }
 
 .header {
@@ -22,14 +32,14 @@
   line-height: 1.6;
 }
 
-.content {
+.settingsContent {
   display: flex;
   flex-direction: column;
   gap: 0;
 }
 
-@media (max-width: 640px) {
-  .container {
+@media (max-width: 768px) {
+  .content {
     padding: 1rem;
   }
 
