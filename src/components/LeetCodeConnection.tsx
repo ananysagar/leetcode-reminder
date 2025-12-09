@@ -37,8 +37,9 @@ export default function LeetCodeConnection() {
       ).unwrap();
       console.log("LeetCode connection result:", result);
 
-      // Only fetch profile if connection was successful
+      // Update auth state with the new user data that includes leetcodeUsername
       if (result.user) {
+        dispatch(updateLeetcodeUsername(result.user.leetcodeUsername || null));
         await dispatch(fetchLeetCodeProfile()).unwrap();
       }
 
