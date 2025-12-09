@@ -147,7 +147,7 @@ export default function LeetCodeDashboard() {
 
       <div className={styles.actions}>
         <a
-          href="https://leetcode.com"
+          href={`https://leetcode.com/${user?.leetcodeUsername || ""}`}
           target="_blank"
           rel="noopener noreferrer"
           className={styles.actionButton}
