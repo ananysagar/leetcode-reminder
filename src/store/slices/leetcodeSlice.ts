@@ -4,6 +4,7 @@ import {
   LeetCodeSubmission,
   EmailReminder,
   StreakData,
+  LeetCodeUserStats,
 } from "../../types/leetcode";
 
 interface LeetCodeState {
@@ -13,6 +14,7 @@ interface LeetCodeState {
   hasSolvedToday: boolean;
   streakData: StreakData | null;
   emailReminders: EmailReminder[];
+  userStats: LeetCodeUserStats | null;
   isLoading: boolean;
   error: string | null;
 }
@@ -24,6 +26,7 @@ const initialState: LeetCodeState = {
   hasSolvedToday: false,
   streakData: null,
   emailReminders: [],
+  userStats: null,
   isLoading: false,
   error: null,
 };
@@ -152,6 +155,25 @@ export const updateReminderSettings = createAsyncThunk(
   },
 );
 
+export const fetchUserStats = createAsyncThunk(
+  "leetcode/fetchUserStats",
+  async () => {
+    const token = localStorage.getItem("token");
+    const response = await fetch("/api/leetcode/user-stats", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Failed to fetch user stats");
+    }
+
+    return response.json();
+  },
+);
+
 const leetcodeSlice = createSlice({
   name: "leetcode",
   initialState,
@@ -166,6 +188,7 @@ const leetcodeSlice = createSlice({
       state.hasSolvedToday = false;
       state.streakData = null;
       state.emailReminders = [];
+      state.userStats = null;
     },
   },
   extraReducers: (builder) => {
@@ -254,6 +277,19 @@ const leetcodeSlice = createSlice({
         state.isLoading = false;
         state.error =
           action.error.message || "Failed to update reminder settings";
+      })
+      // Fetch User Stats
+      .addCase(fetchUserStats.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fetchUserStats.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.userStats = action.payload.userStats;
+      })
+      .addCase(fetchUserStats.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message || "Failed to fetch user stats";
       });
   },
 });

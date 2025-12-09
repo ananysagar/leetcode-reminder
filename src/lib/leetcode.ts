@@ -2,6 +2,7 @@ import {
   LeetCodeUser,
   LeetCodeSubmission,
   LeetCodeProfile,
+  LeetCodeUserStats,
 } from "../types/leetcode";
 
 export class LeetCodeAPI {
@@ -200,6 +201,62 @@ export class LeetCodeAPI {
     } catch (error) {
       console.error("Error validating username:", error);
       return false;
+    }
+  }
+
+  /**
+   * Get user stats (streak and total active days) from LeetCode
+   */
+  static async getUserStats(
+    username: string,
+  ): Promise<LeetCodeUserStats | null> {
+    try {
+      const query = `
+        query userStats($username: String!) {
+          matchedUser(username: $username) {
+            userCalendar {
+              streak
+              totalActiveDays
+            }
+          }
+        }
+      `;
+
+      const response = await fetch(this.GRAPHQL_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "User-Agent": this.USER_AGENT,
+        },
+        body: JSON.stringify({
+          query,
+          variables: { username },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.errors) {
+        console.error("GraphQL errors:", data.errors);
+        return null;
+      }
+
+      const userCalendar = data.data?.matchedUser?.userCalendar;
+      if (!userCalendar) {
+        return null;
+      }
+
+      return {
+        streak: userCalendar.streak || 0,
+        totalActiveDays: userCalendar.totalActiveDays || 0,
+      };
+    } catch (error) {
+      console.error("Error fetching LeetCode user stats:", error);
+      return null;
     }
   }
 }

@@ -61,3 +61,8 @@ export interface StreakData {
   updatedAt: Date;
   emailReminders: EmailReminder[];
 }
+
+export interface LeetCodeUserStats {
+  streak: number;
+  totalActiveDays: number;
+}
