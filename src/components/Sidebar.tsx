@@ -11,21 +11,6 @@ const navigationItems = [
     icon: "🏠",
   },
   {
-    name: "Study Sheets",
-    href: "/sheets",
-    icon: "📚",
-  },
-  {
-    name: "Timer",
-    href: "/timer",
-    icon: "⏱️",
-  },
-  {
-    name: "Analytics",
-    href: "/analytics",
-    icon: "📊",
-  },
-  {
     name: "Settings",
     href: "/settings",
     icon: "⚙️",
