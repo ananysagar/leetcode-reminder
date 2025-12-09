@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { fetchUserStats } from "../store/slices/leetcodeSlice";
@@ -53,16 +52,6 @@ export default function Dashboard() {
           </div>
 
           <LeetCodeDashboard />
-
-          <div className={styles.quickActions}>
-            <h2>Quick Actions</h2>
-            <div className={styles.actionGrid}>
-              <Link href="/settings" className={styles.actionButton}>
-                <span>⚙️</span>
-                <span>Settings</span>
-              </Link>
-            </div>
-          </div>
         </div>
       </div>
     </div>
