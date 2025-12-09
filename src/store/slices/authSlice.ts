@@ -89,7 +89,7 @@ const authSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
-    updateLeetcodeUsername: (state, action: PayloadAction<string>) => {
+    updateLeetcodeUsername: (state, action: PayloadAction<string | null>) => {
       if (state.user) {
         state.user.leetcodeUsername = action.payload;
       }

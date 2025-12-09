@@ -5,13 +5,16 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import {
   connectLeetCode,
   fetchLeetCodeProfile,
+  disconnectLeetCode,
   clearError,
 } from "../store/slices/leetcodeSlice";
+import { updateLeetcodeUsername } from "../store/slices/authSlice";
 import styles from "./LeetCodeConnection.module.css";
 
 export default function LeetCodeConnection() {
   const [leetcodeUsername, setLeetcodeUsername] = useState("");
   const [isConnecting, setIsConnecting] = useState(false);
+  const [isDisconnecting, setIsDisconnecting] = useState(false);
 
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
@@ -51,9 +54,25 @@ export default function LeetCodeConnection() {
     }
   };
 
-  const handleDisconnect = () => {
-    // TODO: Implement disconnect functionality
-    console.log("Disconnect LeetCode account");
+  const handleDisconnect = async () => {
+    if (!confirm("Are you sure you want to disconnect your LeetCode account?")) {
+      return;
+    }
+
+    setIsDisconnecting(true);
+    try {
+      const result = await dispatch(disconnectLeetCode()).unwrap();
+      
+      // Update auth state to remove leetcodeUsername
+      if (result.user) {
+        dispatch(updateLeetcodeUsername(null));
+      }
+    } catch (error) {
+      console.error("Failed to disconnect LeetCode:", error);
+      alert("Failed to disconnect LeetCode account. Please try again.");
+    } finally {
+      setIsDisconnecting(false);
+    }
   };
 
   if (user?.leetcodeUsername) {
@@ -91,8 +110,12 @@ export default function LeetCodeConnection() {
           )}
         </div>
 
-        <button onClick={handleDisconnect} className={styles.disconnectButton}>
-          Disconnect Account
+        <button
+          onClick={handleDisconnect}
+          disabled={isDisconnecting}
+          className={styles.disconnectButton}
+        >
+          {isDisconnecting ? "Disconnecting..." : "Disconnect Account"}
         </button>
       </div>
     );

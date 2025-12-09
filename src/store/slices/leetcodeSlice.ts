@@ -174,6 +174,27 @@ export const fetchUserStats = createAsyncThunk(
   },
 );
 
+export const disconnectLeetCode = createAsyncThunk(
+  "leetcode/disconnect",
+  async () => {
+    const token = localStorage.getItem("token");
+    const response = await fetch("/api/leetcode/disconnect", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Failed to disconnect LeetCode account");
+    }
+
+    return response.json();
+  },
+);
+
 const leetcodeSlice = createSlice({
   name: "leetcode",
   initialState,
@@ -290,6 +311,27 @@ const leetcodeSlice = createSlice({
       .addCase(fetchUserStats.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.error.message || "Failed to fetch user stats";
+      })
+      // Disconnect LeetCode
+      .addCase(disconnectLeetCode.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(disconnectLeetCode.fulfilled, (state) => {
+        state.isLoading = false;
+        // Clear all LeetCode data
+        state.profile = null;
+        state.recentSubmissions = [];
+        state.todaySubmissions = [];
+        state.hasSolvedToday = false;
+        state.streakData = null;
+        state.emailReminders = [];
+        state.userStats = null;
+      })
+      .addCase(disconnectLeetCode.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error =
+          action.error.message || "Failed to disconnect LeetCode account";
       });
   },
 });

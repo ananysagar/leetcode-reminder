@@ -2,7 +2,7 @@ export interface User {
   id: string;
   email: string;
   username: string;
-  leetcodeUsername?: string;
+  leetcodeUsername?: string | null;
   createdAt: Date;
   updatedAt: Date;
 }

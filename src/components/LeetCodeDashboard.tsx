@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import {
   fetchLeetCodeProfile,
   checkTodaySubmissions,
   fetchRecentSubmissions,
+  disconnectLeetCode,
 } from "../store/slices/leetcodeSlice";
+import { updateLeetcodeUsername } from "../store/slices/authSlice";
 import styles from "./LeetCodeDashboard.module.css";
 
 export default function LeetCodeDashboard() {
@@ -20,6 +22,7 @@ export default function LeetCodeDashboard() {
     recentSubmissions,
     isLoading,
   } = useAppSelector((state) => state.leetcode);
+  const [isDisconnecting, setIsDisconnecting] = useState(false);
 
   useEffect(() => {
     if (user?.leetcodeUsername) {
@@ -61,6 +64,27 @@ export default function LeetCodeDashboard() {
     (s) => s.statusDisplay === "Accepted",
   ).length;
   const todayTotalCount = todaySubmissions.length;
+
+  const handleDisconnect = async () => {
+    if (!confirm("Are you sure you want to disconnect your LeetCode account?")) {
+      return;
+    }
+
+    setIsDisconnecting(true);
+    try {
+      const result = await dispatch(disconnectLeetCode()).unwrap();
+      
+      // Update auth state to remove leetcodeUsername
+      if (result.user) {
+        dispatch(updateLeetcodeUsername(null));
+      }
+    } catch (error) {
+      console.error("Failed to disconnect LeetCode:", error);
+      alert("Failed to disconnect LeetCode account. Please try again.");
+    } finally {
+      setIsDisconnecting(false);
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -157,6 +181,13 @@ export default function LeetCodeDashboard() {
         <Link href="/settings" className={styles.actionButton}>
           Settings
         </Link>
+        <button
+          onClick={handleDisconnect}
+          disabled={isDisconnecting}
+          className={`${styles.actionButton} ${styles.disconnectButton}`}
+        >
+          {isDisconnecting ? "Disconnecting..." : "Disconnect Account"}
+        </button>
       </div>
     </div>
   );
