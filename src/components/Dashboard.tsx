@@ -57,18 +57,6 @@ export default function Dashboard() {
           <div className={styles.quickActions}>
             <h2>Quick Actions</h2>
             <div className={styles.actionGrid}>
-              <Link href="/timer" className={styles.actionButton}>
-                <span>🎯</span>
-                <span>Start Timer</span>
-              </Link>
-              <Link href="/sheets" className={styles.actionButton}>
-                <span>📚</span>
-                <span>View Sheets</span>
-              </Link>
-              <Link href="/analytics" className={styles.actionButton}>
-                <span>📊</span>
-                <span>Analytics</span>
-              </Link>
               <Link href="/settings" className={styles.actionButton}>
                 <span>⚙️</span>
                 <span>Settings</span>
