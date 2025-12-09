@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import {
@@ -37,9 +38,9 @@ export default function LeetCodeDashboard() {
             Connect your LeetCode account to track your progress and see your
             daily activity.
           </p>
-          <a href="/settings" className={styles.connectLink}>
+          <Link href="/settings" className={styles.connectLink}>
             Go to Settings
-          </a>
+          </Link>
         </div>
       </div>
     );
@@ -153,9 +154,9 @@ export default function LeetCodeDashboard() {
         >
           Go to LeetCode
         </a>
-        <a href="/settings" className={styles.actionButton}>
+        <Link href="/settings" className={styles.actionButton}>
           Settings
-        </a>
+        </Link>
       </div>
     </div>
   );
