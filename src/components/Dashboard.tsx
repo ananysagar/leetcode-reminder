@@ -1,14 +1,24 @@
 "use client";
 
 import Link from "next/link";
-import { useAppSelector } from "../hooks/redux";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { fetchUserStats } from "../store/slices/leetcodeSlice";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import LeetCodeDashboard from "./LeetCodeDashboard";
 import styles from "./Dashboard.module.css";
 
 export default function Dashboard() {
+  const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
+  const { userStats } = useAppSelector((state) => state.leetcode);
+
+  useEffect(() => {
+    if (user?.leetcodeUsername) {
+      dispatch(fetchUserStats());
+    }
+  }, [dispatch, user?.leetcodeUsername]);
 
   return (
     <div className={styles.container}>
@@ -25,12 +35,16 @@ export default function Dashboard() {
 
           <div className={styles.stats}>
             <div className={styles.statCard}>
-              <h3>Current Streak</h3>
-              <p className={styles.statValue}>0 days</p>
+              <h3>Max Streak</h3>
+              <p className={styles.statValue}>
+                {userStats?.streak ?? 0} days
+              </p>
             </div>
             <div className={styles.statCard}>
-              <h3>Problems Solved</h3>
-              <p className={styles.statValue}>0</p>
+              <h3>Total Active Days</h3>
+              <p className={styles.statValue}>
+                {userStats?.totalActiveDays ?? 0} days
+              </p>
             </div>
             <div className={styles.statCard}>
               <h3>Study Sheets</h3>
