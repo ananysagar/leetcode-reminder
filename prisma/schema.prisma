@@ -6,42 +6,42 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-  id              String   @id @default(cuid())
-  email           String   @unique
-  username        String   @unique
-  password        String
+  id               String   @id @default(cuid())
+  email            String   @unique
+  username         String   @unique
+  password         String
   leetcodeUsername String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   // Relations
-  userProblems    UserProblem[]
-  userSheets      UserSheet[]
-  timerSessions   TimerSession[]
-  streakData      StreakData?
-  emailReminders  EmailReminder[]
+  userProblems        UserProblem[]
+  userSheets          UserSheet[]
+  timerSessions       TimerSession[]
+  streakData          StreakData?
+  emailReminders      EmailReminder[]      @relation("EmailReminderUser")
   leetcodeSubmissions LeetCodeSubmission[]
 
   @@map("users")
 }
 
 model Problem {
-  id          String   @id @default(cuid())
-  leetcodeId  Int      @unique
-  title       String
-  difficulty  String   // EASY, MEDIUM, HARD
-  category    String
-  url         String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id         String   @id @default(cuid())
+  leetcodeId Int      @unique
+  title      String
+  difficulty String // EASY, MEDIUM, HARD
+  category   String
+  url        String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   // Relations
-  userProblems UserProblem[]
+  userProblems  UserProblem[]
   problemSheets ProblemSheet[]
 
   @@map("problems")
@@ -56,21 +56,21 @@ model StudySheet {
   updatedAt   DateTime @updatedAt
 
   // Relations
-  userSheets      UserSheet[]
-  problemSheets   ProblemSheet[]
+  userSheets    UserSheet[]
+  problemSheets ProblemSheet[]
 
   @@map("study_sheets")
 }
 
 model UserProblem {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   userId    String
   problemId String
-  status    String   // NOT_STARTED, IN_PROGRESS, SOLVED, REVIEW_NEEDED
+  status    String // NOT_STARTED, IN_PROGRESS, SOLVED, REVIEW_NEEDED
   notes     String?
   solvedAt  DateTime?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   // Relations
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -81,23 +81,23 @@ model UserProblem {
 }
 
 model UserSheet {
-  id          String @id @default(cuid())
-  userId      String
-  sheetId     String
-  isSelected  Boolean @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id         String   @id @default(cuid())
+  userId     String
+  sheetId    String
+  isSelected Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   // Relations
-  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  sheet StudySheet  @relation(fields: [sheetId], references: [id], onDelete: Cascade)
+  user  User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sheet StudySheet @relation(fields: [sheetId], references: [id], onDelete: Cascade)
 
   @@unique([userId, sheetId])
   @@map("user_sheets")
 }
 
 model ProblemSheet {
-  id        String @id @default(cuid())
+  id        String   @id @default(cuid())
   problemId String
   sheetId   String
   order     Int
@@ -112,13 +112,13 @@ model ProblemSheet {
 }
 
 model TimerSession {
-  id        String   @id @default(cuid())
-  userId    String
-  type      String   // POMODORO, QUICK_SOLVE, MEDIUM_PROBLEM, HARD_PROBLEM, STUDY_SESSION
-  duration  Int      // in minutes
-  startedAt DateTime @default(now())
-  endedAt   DateTime?
-  isCompleted Boolean @default(false)
+  id          String    @id @default(cuid())
+  userId      String
+  type        String // POMODORO, QUICK_SOLVE, MEDIUM_PROBLEM, HARD_PROBLEM, STUDY_SESSION
+  duration    Int // in minutes
+  startedAt   DateTime  @default(now())
+  endedAt     DateTime?
+  isCompleted Boolean   @default(false)
 
   // Relations
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -127,18 +127,18 @@ model TimerSession {
 }
 
 model StreakData {
-  id              String   @id @default(cuid())
-  userId          String   @unique
-  currentStreak   Int      @default(0)
-  longestStreak   Int      @default(0)
-  lastSolvedDate  DateTime?
-  isReminderEnabled Boolean @default(true)
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                String    @id @default(cuid())
+  userId            String    @unique
+  currentStreak     Int       @default(0)
+  longestStreak     Int       @default(0)
+  lastSolvedDate    DateTime?
+  isReminderEnabled Boolean   @default(true)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
 
   // Relations
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  emailReminders EmailReminder[]
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  emailReminders EmailReminder[] @relation("EmailReminderStreak")
 
   @@map("streak_data")
 }
@@ -150,7 +150,7 @@ model LeetCodeSubmission {
   title       String
   titleSlug   String
   difficulty  String
-  status      String   // Accepted, Wrong Answer, etc.
+  status      String // Accepted, Wrong Answer, etc.
   language    String
   submittedAt DateTime
   createdAt   DateTime @default(now())
@@ -160,21 +160,20 @@ model LeetCodeSubmission {
 
   @@unique([userId, problemId, submittedAt])
   @@map("leetcode_submissions")
-} 
+}
 
 model EmailReminder {
   id        String   @id @default(cuid())
   userId    String
-  time      String   // HH:MM format
+  time      String // HH:MM format
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // Relations
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  streakData StreakData @relation(fields: [userId], references: [userId])
+  user User @relation("EmailReminderUser", fields: [userId], references: [id], onDelete: Cascade, map: "email_reminders_user_fkey")
+
+  streakData StreakData @relation("EmailReminderStreak", fields: [userId], references: [userId], map: "email_reminders_streak_fkey")
 
   @@unique([userId, time])
   @@map("email_reminders")
 }
-
